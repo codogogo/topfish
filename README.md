@@ -56,7 +56,7 @@ For the wordfish scaler (script *wordfish.py*) the input are only the raw text f
 
 If you're using the scaling functionality (either TopFish scaling or our reimplementation of the WordFish scaler), please cite the following paper: 
 
-@InProceedings{glavavs-nanni-ponzetto:2017:EACLshort,
+```@InProceedings{glavavs-nanni-ponzetto:2017:EACLshort,
   author    = {Glava\v{s}, Goran  and  Nanni, Federico  and  Ponzetto, Simone Paolo},
   title     = {Unsupervised Cross-Lingual Scaling of Political Texts},
   booktitle = {Proceedings of the 15th Conference of the European Chapter of the Association for Computational Linguistics: Volume 2, Short Papers},
@@ -66,11 +66,11 @@ If you're using the scaling functionality (either TopFish scaling or our reimple
   publisher = {Association for Computational Linguistics},
   pages     = {688--693},
   url       = {http://www.aclweb.org/anthology/E17-2109}
-}
+}```
 
 If you're using the classification functionality in the work you publish, please cite the following paper: 
 
-@InProceedings{glavavs-nanni-ponzetto:2017:NLPandCSS,
+```@InProceedings{glavavs-nanni-ponzetto:2017:NLPandCSS,
   author    = {Glava\v{s}, Goran  and  Nanni, Federico  and  Ponzetto, Simone Paolo},
   title     = {Cross-Lingual Classification of Topics in Political Texts},
   booktitle = {Proceedings of the Second Workshop on NLP and Computational Social Science},
@@ -80,7 +80,7 @@ If you're using the classification functionality in the work you publish, please
   publisher = {Association for Computational Linguistics},
   pages     = {42--46},
   url       = {http://www.aclweb.org/anthology/W17-2906}
-}
+}```
 
 
 
