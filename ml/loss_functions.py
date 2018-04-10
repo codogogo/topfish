@@ -1,5 +1,4 @@
 import tensorflow as tf
-from extensions import tf_extensions
 
 def softmax_cross_entropy(predictions, golds):
 		losses = tf.nn.softmax_cross_entropy_with_logits(logits=predictions, labels=golds)
@@ -89,45 +88,6 @@ def contrastive_loss_nonbinary(predictions, golds, params):
 		k += 1
 	return loss
 		
-	
-
-###### Not differentiable
-#def misclassification_count(predictions_scores, gold_label_scores, l2_loss, l2_reg_factor):
-#		preds = tf.argmax(predictions_scores, 1, name="predictions")
-#		gs = tf.argmax(gold_label_scores, 1)
-#		loss = tf.reduce_sum(tf.cast(tf.not_equal(preds, gs), "float")) #+ l2_reg_factor * l2_loss
-#		return loss
-
-
-
-
-
-
-
-
-################## OLD #####################
-#def multi_class_hinge_loss(prediction_scores, gold_scores, l2_loss, l2_reg_factor):
-#	loss = tf.contrib.losses.hinge_loss(prediction_scores, gold_scores) + l2_reg_factor * l2_loss
-#	return loss
-
-#def kb_embed_simple_loss(prediction_scores, gold_scores, l2_loss, l2_reg_factor):
-#	scores = prediction_scores[0]
-#	loss = -1 * tf.reduce_sum(tf.multiply(scores, gold_scores)) + l2_reg_factor * l2_loss
-#	return loss
-
-## this assumes that batches contain full positive-fake pairs, i.e., that each true triple is immediately followed by all its corresponding corrupted triples
-#def kb_embed_margin_ranking_loss(prediction_scores, gold_scores, l2_loss, l2_reg_factor):
-#	triple_scores = prediction_scores[0]
-#	num_corrupted = prediction_scores[1]
-	
-#	triple_scores = tf.reshape(triple_scores, [-1, num_corrupted + 1])
-#	slices = tf_extensions.slice_matrix(triple_scores, [1], col_or_row = "col")
-#	positives = tf.tile(slices[0], [1, num_corrupted])
-#	diff = tf.add(tf.subtract(slices[1], positives), 1)
-#	pure_loss = tf.reduce_sum(tf.maximum(diff, 0))
-	
-#	loss = pure_loss + l2_reg_factor * l2_loss
-#	return loss
 	
 		
 	
