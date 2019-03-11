@@ -1,8 +1,6 @@
 # SemScale
 A tool for semantic scaling of political text based on word embeddings.
 
-## Semantic Scaler (SemScale)
-
 The tool scaler.py needs the following inputs:
 
  datadir -> A path to the directory containing the input text
