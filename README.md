@@ -30,14 +30,19 @@ For an easy set-up, we provide pre-trained FastText embeddings in a single file 
 
 https://drive.google.com/file/d/1Oy61TV0DpruUXOK9qO3IFsvL5DMvwGwD/view?usp=sharing 
 
-Nonetheless, you can easily use the tools for texts in other languages and with different embeddings as well, as long as you:
+Nonetheless, you can easily use the tool for texts in other languages or with different word embeddings, as long as you:
 
-1) provide a (language-prefixed) word embedding file containing the vocabularies of new languages. Entries must be prefixed (abbreviation for the language plus double underscore "__", e.g., Bulgarian might be prefixed with "bg__")
+1) provide a (language-prefixed) word embedding file, the following way: for each word, abbreviation for the language plus double underscore plus word and then the word embedding. For instance, each word in a Bulgarian word embeddings file might be prefixed with "bg__")
 
-2) update the list of supported languages in the beginning of the code file *nlp.py* and at the beginning of the task script you're using (e.g., *scaler.py*)
+2) in case you employ embeddings in a different language to the 5 listed above, update the list of supported languages in the beginning of the code file *nlp.py* and at the beginning of the task script you're using (e.g., *scaler.py*)
 
 ## Output File
 
+A simple .txt, which will be filled with filename, positional-score for each input file.
+
+## (Optional) Stopwords
+
+Stopwords can be automatically excluded, via this input file (one stop-word per line).
 
 ### Prerequisites
 
@@ -45,15 +50,7 @@ Nonetheless, you can easily use the tools for texts in other languages and with 
 
 ## Other functionalities
 
-This branch focuses only on SemScale. More information about additional functionalities (classification, topical-scaling) can be obtained by running the scripts with the *-h* option: 
-
-1. *python trainer.py -h*
-2. *python predictor.py -h*
-3. *python scaler.py -h*
-4. *python topical-scaler.py -h*
-5. *python wordfish.py -h*
-
-To know more, see the main branch: https://github.com/codogogo/topfish
+This branch focuses only on SemScale. Additional functionalities (classification, topical-scaling) are available in the main branch: https://github.com/codogogo/topfish
 
 ## Referencing
 
