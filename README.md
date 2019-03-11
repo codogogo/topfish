@@ -3,7 +3,7 @@ An easy-to-use tool for semantic scaling of political text based on word embeddi
 
 ## How to use it
 
-The script scaler.py needs just the following inputs:
+Clone the project, then cd into the SemScale directory. The script scaler.py needs just the following inputs:
 
  datadir -> A path to the directory containing the input text
                         files for scaling (one score will be assigned per
