@@ -5,14 +5,14 @@ An easy-to-use tool for semantic scaling of political text based on word embeddi
 
 Clone the project, then cd into the SemScale directory. The script scaler.py needs just the following inputs:
 
- datadir -> A path to the directory containing the input text
+ __datadir__ -> A path to the directory containing the input text
                         files for scaling (one score will be assigned per
                         file).
                         
-  embs -> A path to the file containing pre-trained word
+ __embs__ -> A path to the file containing pre-trained word
                         embeddings
                         
-  output -> A file path to which to store the scaling results.
+ __output__ -> A file path to which to store the scaling results.
 
 optional arguments:
 
