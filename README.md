@@ -14,6 +14,8 @@ Clone the project, then cd into the SemScale directory. The script scaler.py nee
                         
  __output__ -> A file path to which to store the scaling results.
 
+
+
 optional arguments:
 
   -h, --help -> show this help message and exit
