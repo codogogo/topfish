@@ -47,7 +47,7 @@ Stopwords can be automatically excluded, via this input file (one stop-word per 
 
 ### Prerequisites
 
-- All script requires the basic libraries from the Python scientific stack: *numpy* (tested with version 1.12.1), *scipy* (tested with version 0.19.0), and *nltk* (tested with version 3.2.3); 
+The script requires basic libraries from the Python scientific stack: *numpy* (tested with version 1.12.1), *scipy* (tested with version 0.19.0), and *nltk* (tested with version 3.2.3); 
 
 ### Run it!
 
@@ -57,7 +57,7 @@ python scaler.py path-to-embeddings-file path-to-input-folder output.txt
 
 ### Other functionalities
 
-We also present a Python implementation of the famous Wordfish algorithm for text scaling. To know more, just run: 
+We also offer a Python implementation of the famous Wordfish algorithm for text scaling. To know how to use it, just run: 
 
 python wordfish.py -h
 
