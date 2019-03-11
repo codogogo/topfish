@@ -15,7 +15,9 @@ The tool scaler.py needs the following inputs:
   output -> A file path to which to store the scaling results.
 
 optional arguments:
+
   -h, --help -> show this help message and exit
+  
   --stopwords STOPWORDS -> A file to the path containing stopwords
 
 ## Input Files
