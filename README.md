@@ -1,9 +1,9 @@
 # SemScale
-An easy-to-use tool for semantic scaling of political text based on word embeddings. 
+An easy-to-use tool for semantic scaling of political text, based on word embeddings. 
 
 ## How to use it
 
-Clone the project, then cd into the SemScale directory. The script scaler.py needs just the following inputs:
+Clone the project, then go into the SemScale directory. The script scaler.py needs just the following inputs:
 
  __datadir__ -> A path to the directory containing the input text
                         files for scaling (one score will be assigned per
@@ -13,7 +13,6 @@ Clone the project, then cd into the SemScale directory. The script scaler.py nee
                         embeddings
                         
  __output__ -> A file path to which to store the scaling results.
-
 
 
 optional arguments:
