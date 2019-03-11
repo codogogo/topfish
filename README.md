@@ -1,9 +1,28 @@
 # SemScale
 A tool for semantic scaling of political text based on word embeddings.
 
+## Semantic Scaler (SemScale)
+
+The tool scaler.py needs the following inputs:
+
+ datadir               A path to the directory containing the input text
+                        files for scaling (one score will be assigned per
+                        file).
+  embs                  A path to the file containing pre-trained word
+                        embeddings
+  output                A file path to which to store the scaling results.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --stopwords STOPWORDS A file to the path containing stopwords
+
+## Input Files
+
+The expected input is in the one-text-per-file format. Each text file should contain a language (e.g., "en") in the first line, i.e., the format should be "*language*\n*text of the file*". 
+
 ## (Multilingual) Word Embeddings
 
-We provide a set of pre-trained FastText embeddings for the following five language: English, French, German, Italian and Spanish, that can be obtained from here: 
+We provide a set of pre-trained FastText embeddings in a single file for the following five language: English, French, German, Italian and Spanish, that can be obtained from here: 
 
 https://drive.google.com/file/d/1Oy61TV0DpruUXOK9qO3IFsvL5DMvwGwD/view?usp=sharing 
 
@@ -12,11 +31,8 @@ Nonetheless, you can easily use the tools for texts in other languages or with d
 - provide a (language-prefixed) word embedding file containing the vocabularies of new languages. Entries must be prefixed (abbreviation for the language plus double underscore "__", e.g., Bulgarian might be prefixed with "bg__")
 - Update the list of supported languages in the beginning of the code file *nlp.py* and at the beginning of the task script you're using (e.g., *scaler.py*)
 
-## Semantic Scaler (SemScale)
+## Output File
 
-*python scaler.py -h*
-
-The expected input is in the one-text-per-file format. Each text file should contain a language in the first line, i.e., the format should be "*language*\n*text of the file*". 
 
 ### Prerequisites
 
