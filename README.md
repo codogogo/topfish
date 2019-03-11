@@ -5,16 +5,18 @@ A tool for semantic scaling of political text based on word embeddings.
 
 The tool scaler.py needs the following inputs:
 
- datadir               A path to the directory containing the input text
+ datadir -> A path to the directory containing the input text
                         files for scaling (one score will be assigned per
                         file).
-  embs                  A path to the file containing pre-trained word
+                        
+  embs -> A path to the file containing pre-trained word
                         embeddings
-  output                A file path to which to store the scaling results.
+                        
+  output -> A file path to which to store the scaling results.
 
 optional arguments:
-  -h, --help            show this help message and exit
-  --stopwords STOPWORDS A file to the path containing stopwords
+  -h, --help -> show this help message and exit
+  --stopwords STOPWORDS -> A file to the path containing stopwords
 
 ## Input Files
 
