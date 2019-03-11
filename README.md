@@ -26,14 +26,15 @@ The expected input is in the one-text-per-file format. Each text file should con
 
 ## (Multilingual) Word Embeddings
 
-We provide a set of pre-trained FastText embeddings in a single file for the following five language: English, French, German, Italian and Spanish, that can be obtained from here: 
+For an easy set-up, we provide pre-trained FastText embeddings in a single file for the following five language: English, French, German, Italian and Spanish, that can be obtained from here: 
 
 https://drive.google.com/file/d/1Oy61TV0DpruUXOK9qO3IFsvL5DMvwGwD/view?usp=sharing 
 
-Nonetheless, you can easily use the tools for texts in other languages or with different embeddings as well, as long as you:
+Nonetheless, you can easily use the tools for texts in other languages and with different embeddings as well, as long as you:
 
-- provide a (language-prefixed) word embedding file containing the vocabularies of new languages. Entries must be prefixed (abbreviation for the language plus double underscore "__", e.g., Bulgarian might be prefixed with "bg__")
-- Update the list of supported languages in the beginning of the code file *nlp.py* and at the beginning of the task script you're using (e.g., *scaler.py*)
+1) provide a (language-prefixed) word embedding file containing the vocabularies of new languages. Entries must be prefixed (abbreviation for the language plus double underscore "__", e.g., Bulgarian might be prefixed with "bg__")
+
+2) update the list of supported languages in the beginning of the code file *nlp.py* and at the beginning of the task script you're using (e.g., *scaler.py*)
 
 ## Output File
 
