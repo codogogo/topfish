@@ -20,9 +20,9 @@ optional arguments:
   
   --stopwords STOPWORDS -> A file to the path containing stopwords
 
-### Input Files
+### Data directory
 
-The expected input is in the one-text-per-file format. Each text file should contain a language (e.g., "en") in the first line, i.e., the format should be "*language*\n*text of the file*". 
+The expected input is in the one-text-per-file format. Each text file in the referenced directory should contain a language (e.g., "en") in the first line, i.e., the format should be "*language*\n*text of the file*". 
 
 ### (Multilingual) Word Embeddings
 
@@ -52,7 +52,7 @@ Stopwords can be automatically excluded, via this input file (one stop-word per 
 
 In the SemScale folder, just run the following command:
 
-python scaler.py path-to-embeddings-file path-to-input-file-folder output.txt
+python scaler.py path-to-embeddings-file path-to-input-folder output.txt
 
 ### Other functionalities
 
