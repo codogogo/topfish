@@ -1,5 +1,5 @@
 # SemScale
-An easy-to-use tool for semantic scaling of political text, based on word embeddings. Check out the [working draft of our political-science article](https://arxiv.org/pdf/1904.06217.pdf), the [original NLP paper](https://ub-madoc.bib.uni-mannheim.de/42002/1/E17-2109.pdf) or the [online demo](http://tools.dws.informatik.uni-mannheim.de/semScale).
+An easy-to-use tool for semantic scaling of political text, based on word embeddings. Check out the working draft of our [political-science article](https://arxiv.org/pdf/1904.06217.pdf), the [original NLP paper](https://ub-madoc.bib.uni-mannheim.de/42002/1/E17-2109.pdf) or the [online demo](http://tools.dws.informatik.uni-mannheim.de/semScale).
 
 ## How to use it
 
