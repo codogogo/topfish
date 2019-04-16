@@ -27,9 +27,7 @@ The expected input is in the one-text-per-file format. Each text file in the ref
 
 ### (Multilingual) Word Embeddings
 
-For an easy set-up, we provide pre-trained FastText embeddings in a single file for the following five language: English, French, German, Italian and Spanish, that can be obtained from here: 
-
-https://drive.google.com/file/d/1Oy61TV0DpruUXOK9qO3IFsvL5DMvwGwD/view?usp=sharing 
+For an easy set-up, we provide pre-trained FastText embeddings in a single file for the following five language: English, French, German, Italian and Spanish, that can be obtained from [here](https://drive.google.com/file/d/1Oy61TV0DpruUXOK9qO3IFsvL5DMvwGwD/view?usp=sharing). 
 
 Nonetheless, you can easily use the tool for texts in other languages or with different word embeddings, as long as you:
 
@@ -61,7 +59,7 @@ We also offer a Python implementation of the famous Wordfish algorithm for text 
 
 python wordfish.py -h
 
-Additional functionalities (classification, topical-scaling) are available in the main branch of this project: https://github.com/codogogo/topfish
+Additional functionalities (classification, topical-scaling) are available in the [main branch](https://github.com/codogogo/topfish) of this project. 
 
 ## Referencing
 
