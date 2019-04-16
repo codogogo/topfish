@@ -61,6 +61,10 @@ python wordfish.py -h
 
 Additional functionalities (classification, topical-scaling) are available in the [main branch](https://github.com/codogogo/topfish) of this project. 
 
+## License
+
+SemScale is released under [GPLv3](https://choosealicense.com/licenses/gpl-3.0/).  
+
 ## Referencing
 
 If you're using this tool, please cite the following paper: 
