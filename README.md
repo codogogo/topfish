@@ -55,7 +55,7 @@ python scaler.py path-to-embeddings-file path-to-input-folder output.txt
 
 ## Other functionalities
 
-To use the supervised scaling version of our approach (dubbed SemScores), just run:
+To use the supervised scaling version of our approach (dubbed __SemScores__), just run:
 
 python supervised-scaler.py
 
