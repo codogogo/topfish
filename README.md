@@ -55,6 +55,12 @@ python scaler.py path-to-embeddings-file path-to-input-folder output.txt
 
 ## Other functionalities
 
+To use the supervised scaling version of our approach (dubbed SemScores), just run:
+
+python supervised-scaler.py
+
+and add as final arguments the two pivot texts to be used.
+
 We also offer a Python implementation of the famous Wordfish algorithm for text scaling. To know how to use it, just run: 
 
 python wordfish.py -h
