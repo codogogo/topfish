@@ -20,6 +20,9 @@ class Corpus(object):
 		self.stopwords = stopwords
 		print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " Preprocessing corpus...", flush = True)
 		self.docs_tokens = [[tok.strip() for tok in nltk.word_tokenize(doc) if tok.strip() not in self.punctuation and len(tok.strip()) > 2] for doc in self.docs_raw]
+		#self.docs_tokens = [[tok.strip() for tok in nltk.word_tokenize(doc)] for doc in self.docs_raw]
+
+        
 		self.freq_dicts = []
 		if self.stopwords is not None:
 			for i in range(len(self.docs_tokens)):
