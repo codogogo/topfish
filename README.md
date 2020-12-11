@@ -20,7 +20,8 @@ optional arguments:
   -h, --help -> show this help message and exit
   
   --stopwords STOPWORDS -> A file to the path containing stopwords
- --emb_cutoff EMB_CUTOFF -> A cutoff on the vocabulary size of the embeddings.
+  
+  --emb_cutoff EMB_CUTOFF -> A cutoff on the vocabulary size of the embeddings.
 
 ### Data directory
 
