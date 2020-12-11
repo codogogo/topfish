@@ -13,7 +13,8 @@ Clone or download the project, then go into the SemScale directory. The script s
                         embeddings
                         
  __output__ -> A file path to which to store the scaling results.
-
+ 
+ __emb_cutoff__ -> A cutoff on the vocabulary size of the embeddings.
 
 optional arguments:
 
@@ -51,7 +52,7 @@ The script requires basic libraries from the Python scientific stack: *numpy* (t
 
 In the SemScale folder, just run the following command:
 
-python scaler.py path-to-embeddings-file path-to-input-folder output.txt
+python scaler.py path-to-embeddings-file path-to-input-folder output.txt emb_cutoff
 
 ## Other functionalities
 
