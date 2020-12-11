@@ -56,10 +56,12 @@ def build_vocab(tokens, count_treshold = 1):
 	
 	return (dict, inv_dict, counts)
 
-def simple_tokenize(text, stopwords, lower = False, lang_prefix = None):
+def simple_tokenize(text, stopwords, lower = True, lang_prefix = None):
 	print("Tokenizing text...")
 	punctuation = [".", ",", "!", ":", "?", ";", "-", ")", "(", "[", "]", "{", "}", "...", "/", "\\", "''", "\"", "'"]
 	toks = [(x.strip().lower() if lower else x.strip()) for x in nltk.word_tokenize(text) if x.strip().lower() not in stopwords and x.strip().lower() not in punctuation]
+	#toks = [(x.strip().lower() if lower else x.strip()) for x in nltk.word_tokenize(text) if x.strip().lower() not in stopwords and x.strip().lower()]
+
 	fix_tokenization(toks)
 	
 	if lang_prefix:
