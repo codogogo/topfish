@@ -52,21 +52,21 @@ The script requires basic libraries from the Python scientific stack: *numpy* (t
 ## Run it!
 
 In the SemScale folder, just run the following command:
-
+``
 python scaler.py path-to-embeddings-file path-to-input-folder output.txt 
-
+``
 ## Other functionalities
 
 To use the supervised scaling version of our approach (dubbed __SemScores__), just run:
-
+``
 python supervised-scaler.py
-
+``
 and add as final arguments the two pivot texts to be used.
 
 We also offer a Python implementation of the famous Wordfish algorithm for text scaling. To know how to use it, just run: 
-
+``
 python wordfish.py -h
-
+``
 Additional functionalities (classification, topical-scaling) are available in the [main branch](https://github.com/codogogo/topfish) of this project. 
 
 ## License
