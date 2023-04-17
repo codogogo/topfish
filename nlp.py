@@ -18,6 +18,7 @@ from sys import stdin
 from datetime import datetime
 from scipy import spatial
 import codecs
+import pickle
 
 def map_lang(lang):
 	if lang.lower() == 'english':
@@ -140,21 +141,21 @@ def test_cnn(texts, languages, labels, embeddings, model_serialization_path, pre
 		io_helper.write_list_tuples_separated(predictions_file_path, list_pairs)
 	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '  Prediction is done!', flush=True)
 
-def scale_efficient(filenames, texts, languages, embeddings, predictions_file_path, parameters, emb_lang = 'default', stopwords = []):
+def scale_supervised(filenames, texts, languages, embeddings, predictions_file_path, pivot1, pivot2, stopwords = [], emb_lang = 'default'):
 	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " Tokenizing documents...", flush = True)
 	texts_tokenized = []
 	for i in range(len(texts)):
 		print("Document " + str(i + 1) + " of " + str(len(texts)), flush = True)
 		texts_tokenized.append(simple_sts.simple_tokenize(texts[i], stopwords, lang_prefix = map_lang(languages[i])))
-	
+
 	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " Building tf-idf indices for weighted aggregation...", flush = True)
 	tf_index, idf_index = simple_sts.build_tf_idf_indices(texts_tokenized)
 	agg_vecs = []
 	for i in range(len(texts_tokenized)):
 		print("Aggregating vector of the document: " + str(i+1) + " of " + str(len(texts_tokenized)), flush = True)
-		agg_vec = simple_sts.aggregate_weighted_text_embedding(embeddings, tf_index[i], idf_index, emb_lang, weigh_idf = (len(set(languages)) == 1))
+		#agg_vec = simple_sts.aggregate_weighted_text_embedding(embeddings, tf_index[i], idf_index, emb_lang, weigh_idf = (len(set(languages)) == 1))
+		agg_vec = simple_sts.aggregate_weighted_text_embedding(embeddings, tf_index[i], idf_index, emb_lang, weigh_idf = False)
 		agg_vecs.append(agg_vec)
-
 	pairs = []
 	cntr = 0
 	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " Computing pairwise similarities...", flush = True)
@@ -163,6 +164,73 @@ def scale_efficient(filenames, texts, languages, embeddings, predictions_file_pa
 			cntr += 1
 			#print("Pair: " + filenames[i] + " - " + filenames[j] + " (" + str(cntr) + " of " + str((len(filenames) * (len(filenames) - 1)) / 2))
 			sim = 1.0 - spatial.distance.cosine(agg_vecs[i], agg_vecs[j])
+			print (sim)
+			#print("Similarity: " + str(sim))
+			pairs.append((filenames[i], filenames[j], sim))
+
+	# rescale distances and produce similarities
+	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " Normalizing pairwise similarities...", flush = True)
+	max_sim = max([x[2] for x in pairs])
+	min_sim = min([x[2] for x in pairs])
+	pairs = [(x[0], x[1], (x[2] - min_sim) / (max_sim - min_sim)) for x in pairs]
+
+	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " Fixing the pivot documents for scaling...", flush = True)
+	min_sim_pair = [pivot1,pivot2,0.0]
+
+	fixed = [(filenames.index(min_sim_pair[0]), -1.0), (filenames.index(min_sim_pair[1]), 1.0)]
+#       fixed = [(pivot1, -1.0), (pivot2, 1.0)]
+
+	# propagating position scores, i.e., scaling
+	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " Running graph-based label propagation with pivot rescaling and score normalization...", flush = True)
+	g = graph.Graph(nodes = filenames, edges = pairs)
+	scores = g.harmonic_function_label_propagation(fixed, rescale_extremes = False, normalize = True)
+
+	embs_to_store = {filenames[x]: [agg_vecs[x],scores[filenames[x]]] for x in range(len(agg_vecs))}
+	print ("embs_to_store", len(embs_to_store))
+
+	with open('docs-embs.pickle', 'wb') as handle:
+		pickle.dump(embs_to_store, handle, protocol=pickle.HIGHEST_PROTOCOL)
+		    
+	if predictions_file_path:
+		io_helper.write_dictionary(predictions_file_path, scores)
+	
+	return scores
+
+def scale_efficient(filenames, texts, languages, embeddings, predictions_file_path, parameters, emb_lang = 'default', stopwords = []):
+	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " Tokenizing documents...", flush = True)
+	texts_tokenized = []
+	for i in range(len(texts)):
+		print("Document " + str(i + 1) + " of " + str(len(texts)), flush = True)
+		texts_tokenized.append(simple_sts.simple_tokenize(texts[i], stopwords, lang_prefix = map_lang(languages[i])))
+
+        
+	embs_to_store = {filenames[x]: [texts_tokenized[x]] for x in range(len(texts_tokenized))} 
+	print ("embs_to_store", len(embs_to_store))
+    
+	with open('tok-text.pickle', 'wb') as handle:
+		pickle.dump(embs_to_store, handle, protocol=pickle.HIGHEST_PROTOCOL)	
+	
+        
+	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " Building tf-idf indices for weighted aggregation...", flush = True)
+	tf_index, idf_index = simple_sts.build_tf_idf_indices(texts_tokenized)
+	agg_vecs = []
+	for i in range(len(texts_tokenized)):
+		print("Aggregating vector of the document: " + str(i+1) + " of " + str(len(texts_tokenized)), flush = True)
+		#agg_vec = simple_sts.aggregate_weighted_text_embedding(embeddings, tf_index[i], idf_index, emb_lang, weigh_idf = (len(set(languages)) == 1))
+		agg_vec = simple_sts.aggregate_weighted_text_embedding(embeddings, tf_index[i], idf_index, emb_lang, weigh_idf = False)
+		agg_vecs.append(agg_vec)
+
+        
+        
+	pairs = []
+	cntr = 0
+	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " Computing pairwise similarities...", flush = True)
+	for i in range(len(agg_vecs) - 1):
+		for j in range(i+1, len(agg_vecs)):
+			cntr += 1
+			#print("Pair: " + filenames[i] + " - " + filenames[j] + " (" + str(cntr) + " of " + str((len(filenames) * (len(filenames) - 1)) / 2))
+			sim = 1.0 - spatial.distance.cosine(agg_vecs[i], agg_vecs[j])
+			print (sim)
 			#print("Similarity: " + str(sim))
 			pairs.append((filenames[i], filenames[j], sim))
 
@@ -180,6 +248,13 @@ def scale_efficient(filenames, texts, languages, embeddings, predictions_file_pa
 	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " Running graph-based label propagation with pivot rescaling and score normalization...", flush = True)
 	g = graph.Graph(nodes = filenames, edges = pairs)
 	scores = g.harmonic_function_label_propagation(fixed, rescale_extremes = True, normalize = True)
+    
+	embs_to_store = {filenames[x]: [agg_vecs[x],scores[filenames[x]]] for x in range(len(agg_vecs))} 
+	print ("embs_to_store", len(embs_to_store))
+    
+	with open('docs-embs.pickle', 'wb') as handle:
+		pickle.dump(embs_to_store, handle, protocol=pickle.HIGHEST_PROTOCOL)	
+	
 	if predictions_file_path:
 		io_helper.write_dictionary(predictions_file_path, scores)
 	return scores

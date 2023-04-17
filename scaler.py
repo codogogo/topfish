@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser(description='Performs text scaling (assigns a s
 parser.add_argument('datadir', help='A path to the directory containing the input text files for scaling (one score will be assigned per file).')
 parser.add_argument('embs', help='A path to the file containing pre-trained word embeddings')
 parser.add_argument('output', help='A file path to which to store the scaling results.')
+parser.add_argument('--emb_cutoff', help='Length of the embedding-dictionary to use.')
 parser.add_argument('--stopwords', help='A file to the path containing stopwords')
 
 args = parser.parse_args()
@@ -29,6 +30,12 @@ if not os.path.isdir(os.path.dirname(args.output)) and not os.path.dirname(args.
 	print("Error: Directory of the output file does not exist.")
 	exit(code = 1)
 
+if not args.emb_cutoff:
+	args.emb_cutoff = None
+	print("Note: Number of embeddings-cutoff is not provided, so we consider the entire vocabulary size.")
+else:
+	args.emb_cutoff = int(args.emb_cutoff)
+    
 if args.stopwords and not os.path.isfile(args.stopwords):
 	print("Error: File containing stopwords not found.")
 	exit(code = 1)
@@ -61,6 +68,6 @@ else:
 predictions_serialization_path = args.output
 
 embeddings = text_embeddings.Embeddings()
-embeddings.load_embeddings(args.embs, limit = 1000000, language = 'default', print_loading = True, skip_first_line = True)
+embeddings.load_embeddings(args.embs, limit = args.emb_cutoff, language = 'default', print_loading = True, skip_first_line = True)
 nlp.scale_efficient(filenames, texts, langs, embeddings, predictions_serialization_path, stopwords)
 print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " Scaling completed.", flush = True)

@@ -1,60 +1,87 @@
-# TopFish
-A set of tools for monolingual and cross-lingual topical text classification and scaling
+# SemScale
+An easy-to-use tool for semantic scaling of political text, based on word embeddings. Check out the working draft of our [political science article](https://arxiv.org/pdf/1904.06217.pdf) (plus its  [online appendix](https://umanlp.github.io/semantic-scaling/)) and the [original NLP paper](https://ub-madoc.bib.uni-mannheim.de/42002/1/E17-2109.pdf).
 
-TopFish is a tool for topical classification and scaling of texts, primarily designed for researcher in social sciences (especially political science). It allows researchers to: 
+## How to use it
 
-1. Train their own topical classifier (based on a convolutional neural network) from their annotated data. (script *trainer.py*) 
-2. Predict the topics for new texts using a previously trained topical classifier (script *predictor.py*)
-3. Scale the collection of texts, i.e., position texts by assigning them a score in a single-dimensional space (script *scaler.py*)
-4. Topically scale texts -- by first topically classifying the texts and then scaling independently texts for each topic, i.e., by taking into consideration for classification only the parts of the texts belonging to the specific topic (script *topical-scaler.py*)
+Clone or download the project, then go into the SemScale directory. The script scaler.py needs just the following inputs:
 
-Each of the above four functionalities has a corresponding command-line tool. In addition, we make available our Python re-implementation of WordFish (script *wordfish.py*), a widely used scaling algorithm based on symbolic (i.e., term-based) representations of text. In contrast, our own scaling algorithm (scripts *scaler.py* and *topical-scaler.py*) make use of semantic representations of text (word embeddings), and are, applicable in both monolingual and multilingual/cross-lingual settings.
+ __datadir__ -> A path to the directory containing the input text
+                        files for scaling (one score will be assigned per
+                        file).
+                        
+ __embs__ -> A path to the file containing pre-trained word
+                        embeddings
+                        
+ __output__ -> A file path to which to store the scaling results.
+ 
 
-## (Multilingual) Word Embeddings
+optional arguments:
 
-All tools except our reimplementation of WordFish (i.e., *trainer.py*, *predictor.py*, *scaler.py*, and *topical-scaler.py*) require a file with pre-trained word embeddings as input. An embedding of a word is a numeric vector that capture the meaning of the word. The entries in the pre-trained word embeddings file need to be language prefixed. 
+  -h, --help -> show this help message and exit
+  
+  --stopwords STOPWORDS -> A file to the path containing stopwords
+  
+  --emb_cutoff EMB_CUTOFF -> A cutoff on the vocabulary size of the embeddings.
 
-By default, we support five big languages: English (prefix "en__"), German (prefix "de__"), Italian (prefix "it__"), French (prefix "fr__"), and Spanish (prefix "es__"). We provide a set of pre-trained FastText embeddings for these five languages, merged into the same multilingual embedding space, that can be obtained from here: 
+### Data directory
 
-https://drive.google.com/file/d/1Oy61TV0DpruUXOK9qO3IFsvL5DMvwGwD/view?usp=sharing 
+The expected input is in the one-text-per-file format. Each text file in the referenced directory should contain a language (e.g., "en") in the first line, i.e., the format should be "*language*\n*text of the file*". 
 
-Nonetheless, you can easily use the tools for texts in other languages well, as long as you:
+### (Multilingual) Word Embeddings
 
-- provide a (language-prefixed) word embedding file containing the vocabularies of new languages. Entries must be prefixed (abbreviation for the language plus double underscore "__", e.g., Bulgarian might be prefixed with "bg__")
-- Update the list of supported languages in the beginning of the code file *nlp.py* and at the beginning of the task script you're using (e.g., *scaler.py*)
+For an easy set-up, we provide pre-trained FastText embeddings in a single file for the following five language: English, French, German, Italian and Spanish, that can be obtained from [here](https://drive.google.com/file/d/1Oy61TV0DpruUXOK9qO3IFsvL5DMvwGwD/view?usp=sharing). 
 
-## Task Scripts
+Nonetheless, you can easily use the tool for texts in other languages or with different word embeddings, as long as you:
 
-There is a separate command-line script for each of the four tasks. The descriptions of mandatory and optional arguments of these scripts can be obtained by running the scripts with the *-h* option: 
+1) provide a (language-prefixed) word embedding file, the following way: for each word, abbreviation for the language plus double underscore plus word and then the word embedding. For instance, each word in a Bulgarian word embeddings file might be prefixed with "bg__")
 
-1. *python trainer.py -h*
-2. *python predictor.py -h*
-3. *python scaler.py -h*
-4. *python topical-scaler.py -h*
-5. *python wordfish.py -h*
+2) in case you employ embeddings in a different language to the 5 listed above, update the list of supported languages in the beginning of the code file *nlp.py* and at the beginning of the task script you're using (e.g., *scaler.py*)
+
+### Output File
+
+A simple .txt, which will be filled with filename, positional-score for each input file.
+
+### (Optional) Stopwords
+
+Stopwords can be automatically excluded, via this input file (one stop-word per line).
 
 ### Prerequisites
 
-- All script requires the basic libraries from the Python scientific stack: *numpy* (tested with version 1.12.1), *scipy* (tested with version 0.19.0), and *nltk* (tested with version 3.2.3); 
-- Running scripts *trainer.py*, *predictor.py*, and *topical-scaler.py* require having the TensorFlow library (tested with version 1.3.0) installed. 
+The script requires basic libraries from the Python scientific stack: *numpy* (tested with version 1.12.1), *scipy* (tested with version 0.19.0), and *nltk* (tested with version 3.2.3); 
 
-## Input Data Formats
+## Run it!
 
-### Topical classification
+In the SemScale folder, just run the following command:
 
-The default format for input texts for classification and predicting topics (scripts *trainer.py* and *predictor.py*) is the **short text format**. The short text format assumes that each line of each input file contains one text instance, in the following format: *language*\t*topic-label*\t*text of the line*. Alternatively, by setting the *-ltf* flag to *True* (scripts *trainer.py* and *predictor.py*), you can indicate that your input directory contains the training/testing instances in the **long text format**. This format assumes that each file is a single text instance (as opposed to each line of each file in the short text format) and the structure of the file must be *language*\t*topic-label*\t*text of the whole file*. 
+``
+python scaler.py path-to-embeddings-file path-to-input-folder output.txt 
+``
 
-In both formats, the *topic-label* must be a single token (that is, one string with any whitespace characters) and the *language* for each text instance must be one of the supported languages (by default, using the abovementioned multilingual embeddings, we support: 'en', 'de', 'fr', 'es', and 'it'). In case that you don't have the gold standard topic labels for the texts you're using  
+## Other functionalities
 
-### Scaling
+To use the supervised scaling version of our approach (dubbed __SemScores__), just run:
 
-For scaling tasks (*scaler.py*, *topical-scaler.py*) the expected input is in the one-text-per-file format. Each text file should contain a language in the first line, i.e., the format should be "*language*\n*text of the file*". 
+``
+python supervised-scaler.py
+``
 
-For the wordfish scaler (script *wordfish.py*) the input are only the raw text files. As the WordFish scaling model is symbolic, it cannot work in the multilingual setting and there is no need to specify the language of the text in each file. Using the script *wordfish.py* it only makes sense to scale texts that are all in the same language. 
+and add as final arguments the two pivot texts to be used.
+
+We also offer a Python implementation of the famous Wordfish algorithm for text scaling. To know how to use it, just run: 
+
+``
+python wordfish.py -h
+``
+
+Additional functionalities (classification, topical-scaling) are available in the [main branch](https://github.com/codogogo/topfish) of this project. 
+
+## License
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
 ## Referencing
 
-If you're using the scaling functionality (either TopFish scaling or our reimplementation of the WordFish scaler), please cite the following paper: 
+If you're using this tool, please cite the following paper: 
 
 ```
 @InProceedings{glavavs-nanni-ponzetto:2017:EACLshort,
@@ -69,23 +96,3 @@ If you're using the scaling functionality (either TopFish scaling or our reimple
   url       = {http://www.aclweb.org/anthology/E17-2109}
 }
 ```
-
-If you're using the classification functionality in the work you publish, please cite the following paper: 
-
-```
-@InProceedings{glavavs-nanni-ponzetto:2017:NLPandCSS,
-  author    = {Glava\v{s}, Goran  and  Nanni, Federico  and  Ponzetto, Simone Paolo},
-  title     = {Cross-Lingual Classification of Topics in Political Texts},
-  booktitle = {Proceedings of the Second Workshop on NLP and Computational Social Science},
-  month     = {August},
-  year      = {2017},
-  address   = {Vancouver, Canada},
-  publisher = {Association for Computational Linguistics},
-  pages     = {42--46},
-  url       = {http://www.aclweb.org/anthology/W17-2906}
-}
-```
-
-
-
-
